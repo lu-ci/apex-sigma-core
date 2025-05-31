@@ -83,6 +83,7 @@ async def leaderboard(cmd, pld):
         now = arrow.utcnow().int_timestamp
         leader_docs = await cmd.db.cache.get_cache(f'{resource}_{sort_key}')
         leader_timer = await cmd.db.cache.get_cache(f'{resource}_{sort_key}_stamp') or now
+        cached = True
         if not leader_docs or leader_timer + 180 < now:
             res_coll = cmd.db.col[f'{resource.title()}Resource']
             search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
@@ -91,6 +92,7 @@ async def leaderboard(cmd, pld):
             await cmd.db.cache.set_cache(f'{resource}_{sort_key}', leader_docs)
             await cmd.db.cache.set_cache(f'{resource}_{sort_key}_stamp', now)
             leader_timer = now
+            cached = False
         if leader_docs:
             table_data = [
                 [
@@ -104,9 +106,10 @@ async def leaderboard(cmd, pld):
             curr_icon = cmd.bot.cfg.pref.currency_icon if resource == 'currency' else '📊'
             response = f'{curr_icon} **{lb_category} {value_name} Leaderboard**'
             response += f'\n```hs\n{table_body}\n```'
-            elapsed = now - leader_timer
-            elapsed = elapsed if elapsed > 0 else 0
-            response += f'\nLeaderboard last updated **{elapsed}s** ago.'
+            if cached:
+                elapsed = now - leader_timer
+                elapsed = elapsed if elapsed > 0 else 0
+                response += f'\nDisplaying cached data from **{elapsed}s** ago.'
         else:
             embed = GenericResponse('No documents found for that resource type.').not_found()
     else:
