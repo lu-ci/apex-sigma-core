@@ -74,6 +74,7 @@ async def cook(cmd, pld):
                     await cmd.db.add_resource(pld.msg.author.id, recipe.type.lower(), points, cmd.name, pld.msg, True)
                     head_title = f'{recipe.icon} You made {connector} {quality.lower()} {recipe.name}'
                     response = discord.Embed(color=recipe.color, title=head_title)
+                    response.description = f'You were awarded {points} points for making it.'
                 else:
                     response = GenericResponse('You\'re missing ingredients.').error()
             else:
