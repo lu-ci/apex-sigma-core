@@ -88,6 +88,10 @@ async def make_response(bot, pool, target, res_nam, expense):
     headers = ['Name', 'Amount']
     response = discord.Embed(color=target.color)
     response.set_author(name=f'{target.name}\'s {res_nam.title()} Resource Statistics', icon_url=user_avatar(target))
+    currency = await bot.db.get_resource(target.id, res_nam)
+    general_block = f'```hs\nCurrent: {currency.current}'
+    general_block += f'\nRanked: {currency.ranked}\nTotal Ranked: {currency.total}\n```'
+    response.add_field(name=f'General', value=general_block, inline=False)
     if user_desc or guild_desc or channel_desc or function_desc:
         response.description = f'Showing data for all {res_nam} that {target.name} {descriptor}, how, and where.'
         if user_desc:
