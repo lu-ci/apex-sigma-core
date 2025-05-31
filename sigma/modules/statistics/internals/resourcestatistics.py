@@ -91,7 +91,7 @@ async def make_response(bot, pool, target, res_nam, expense):
     currency = await bot.db.get_resource(target.id, res_nam)
     general_block = f'```hs\nCurrent: {currency.current}'
     general_block += f'\nRanked: {currency.ranked}\nTotal Ranked: {currency.total}\n```'
-    response.add_field(name=f'General', value=general_block, inline=False)
+    response.add_field(name='General', value=general_block, inline=False)
     if user_desc or guild_desc or channel_desc or function_desc:
         response.description = f'Showing data for all {res_nam} that {target.name} {descriptor}, how, and where.'
         if user_desc:
