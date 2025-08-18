@@ -19,7 +19,7 @@ steps:
   - name: test
     image: node:22 # Replicates 'container: image: node:22'
     pull: always
-    # This section runs the commands from your 'Install Python' and 'Run tests' steps.
+    # This section runs the commands from your 'Install Python and 'Run tests' steps.
     # Drone automatically handles code checkout in a default clone step, so no
     # explicit checkout is needed unless you disable it.
     commands:
@@ -66,8 +66,8 @@ steps:
     # This section now mirrors the SSH setup from your original workflow.
     # We install the necessary tools and then execute the remote commands.
     commands:
-      # Install the SSH client and docker-compose using Alpine's package manager (apk)
-      - apk update && apk add openssh-client docker-compose-v2
+      # Install only the SSH client using Alpine's package manager (apk)
+      - apk update && apk add openssh-client
       # Set up the SSH key from your secret
       - mkdir -p ~/.ssh
       - echo "$SSH_KEY" > ~/.ssh/id_rsa
