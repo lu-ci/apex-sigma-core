@@ -47,6 +47,7 @@ steps:
         from_secret: REGISTRY_TOKEN
       # The repository for the Docker image.
       repo: git.luciascipher.com/luci/apex-sigma
+      registry: git.luciascipher.com
       # Automatically tag the image with a build number.
       tags:
         - latest
