@@ -1,0 +1,86 @@
+kind: pipeline
+type: docker
+name: CI/CD Pipeline
+
+trigger:
+  # This event configuration triggers the pipeline on push to the master branch,
+  # which corresponds to 'on: push' in the original workflow.
+  branch:
+  - master
+  # The 'action' event with 'manual' allows for manual triggers, similar to
+  # 'workflow_dispatch' in your original workflow.
+  event:
+  - push
+  - manual
+
+# The 'Test' stage. This is a single step in the Drone pipeline.
+# It corresponds to your 'test' job.
+steps:
+  - name: test
+    image: node:22 # Replicates 'container: image: node:22'
+    pull: always
+    # This section runs the commands from your 'Install Python' and 'Run tests' steps.
+    # Drone automatically handles code checkout in a default clone step, so no
+    # explicit checkout is needed unless you disable it.
+    commands:
+      # Install dependencies for Python
+      - apt-get update && apt-get install -y python3 python3-pip
+      - pip3 install flake8 --break-system-packages
+      # Run the tests
+      - python3 -m flake8 --ignore=E501 sigma/
+
+  # The 'build-and-push' stage, which corresponds to your 'build-and-push' job.
+  # It depends on the 'test' step completing successfully.
+  - name: build-and-push
+    # This step uses the official Drone Docker plugin. This plugin
+    # handles building, tagging, and pushing images automatically, which
+    # replaces your manual 'docker' commands and 'dockertool.rb' script.
+    image: plugins/docker
+    depends_on:
+      - test # Replicates 'needs: test'
+    settings:
+      # The Docker registry username, using a Drone secret.
+      username:
+        from_secret: REGISTRY_USER
+      # The Docker registry access token, using a Drone secret.
+      password:
+        from_secret: REGISTRY_TOKEN
+      # The repository for the Docker image.
+      repo: git.luciascipher.com/luci/apex-sigma
+      # Automatically tag the image with a build number.
+      tags:
+        - latest
+        - ${DRONE_BUILD_NUMBER}
+    when:
+      # Ensures this step only runs on a successful push event to the master branch.
+      event: push
+      branch: master
+
+  # The 'deploy' stage. This corresponds to your 'deploy' job.
+  # It depends on the 'build-and-push' step completing successfully.
+  - name: deploy
+    # This step uses the official Drone SSH plugin.
+    # It handles SSH authentication and command execution.
+    image: plugins/ssh
+    depends_on:
+      - build-and-push # Replicates 'needs: build-and-push'
+    settings:
+      # The SSH host, using a Drone secret.
+      host:
+        from_secret: SSH_HOST
+      # The SSH user, using a Drone secret.
+      user:
+        from_secret: SSH_USER
+      # The private SSH key, using a Drone secret.
+      # The plugin will handle setting up the key and connecting.
+      # This replaces your manual 'mkdir', 'echo', and 'chmod' commands.
+      ssh_key:
+        from_secret: SSH_KEY
+    commands:
+      - cd /srv
+      - docker-compose pull sigma_0
+      - docker-compose up -d sigma_0
+    when:
+      # Ensures this step only runs on a successful push event to the master branch.
+      event: push
+      branch: master
