@@ -46,12 +46,11 @@ steps:
       password:
         from_secret: REGISTRY_TOKEN
       # The repository for the Docker image.
-      repo: git.luciascipher.com/luci/apex-sigma
+      repo: git.luciascipher.com/lucia/apex-sigma
       registry: git.luciascipher.com
       # Automatically tag the image with a build number.
       tags:
         - latest
-        - ${DRONE_BUILD_NUMBER}
     when:
       # Ensures this step only runs on a successful push event to the master branch.
       event: push
