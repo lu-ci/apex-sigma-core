@@ -59,27 +59,25 @@ steps:
   # The 'deploy' stage. This corresponds to your 'deploy' job.
   # It depends on the 'build-and-push' step completing successfully.
   - name: deploy
-    # This step uses the official Drone SSH plugin.
-    # It handles SSH authentication and command execution.
-    image: plugins/ssh
+    # Now using a lightweight Alpine image.
+    image: alpine:latest
     depends_on:
       - build-and-push # Replicates 'needs: build-and-push'
-    settings:
-      # The SSH host, using a Drone secret.
-      host:
-        from_secret: SSH_HOST
-      # The SSH user, using a Drone secret.
-      user:
-        from_secret: SSH_USER
-      # The private SSH key, using a Drone secret.
-      # The plugin will handle setting up the key and connecting.
-      # This replaces your manual 'mkdir', 'echo', and 'chmod' commands.
-      ssh_key:
-        from_secret: SSH_KEY
+    # This section now mirrors the SSH setup from your original workflow.
+    # We install the necessary tools and then execute the remote commands.
     commands:
+      # Install the SSH client and docker-compose using Alpine's package manager (apk)
+      - apk update && apk add openssh-client docker-compose-v2
+      # Set up the SSH key from your secret
+      - mkdir -p ~/.ssh
+      - echo "$SSH_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      # Execute the remote commands via SSH
+      - ssh -o StrictHostKeyChecking=no "$SSH_USER@$SSH_HOST" <<EOF
       - cd /srv
       - docker-compose pull sigma_0
-      - docker-compose up -d sigma_0
+      - docker-compose up -d
+      - EOF
     when:
       # Ensures this step only runs on a successful push event to the master branch.
       event: push
