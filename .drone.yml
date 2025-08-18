@@ -73,7 +73,7 @@ steps:
       - echo "$SSH_KEY" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
       # Execute the remote commands via SSH
-      - ssh -o StrictHostKeyChecking=no "$SSH_USER@$SSH_HOST" <<EOF
+      - ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST <<EOF
       - cd /srv
       - docker-compose pull sigma_0
       - docker-compose up -d
