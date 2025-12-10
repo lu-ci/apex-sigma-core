@@ -39,6 +39,13 @@ steps:
     image: alpine:latest
     depends_on:
       - build-and-push
+    environment:
+      SSH_HOST:
+        from_secret: SSH_HOST
+      SSH_USER:
+        from_secret: SSH_USER
+      SSH_KEY:
+        from_secret: SSH_KEY
     commands:
       - apk add --no-cache openssh-client
       - eval $(ssh-agent -s)
