@@ -71,7 +71,7 @@ async def vnchargame(cmd, pld):
             vn_image = vn_details_page.cssselect('.vnimg')[0][0][0][0].attrib['src']
             character_objects = vn_details_page.cssselect('.chardetails')[:8]
             character = secrets.choice(character_objects)
-            char_img = character[0][0][0][0].attrib['src']
+            char_img = character[0][0][0].attrib['src']
             char_name = character[1][0][0][0][0].text.strip()
 
             kud_reward = None

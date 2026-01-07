@@ -55,7 +55,7 @@ class VisualNovel(object):
         if out is None:
             for title in titles:
                 lang = title[1][0].attrib.get('lang')
-                if lang == 'ja':
+                if lang.startswith('ja'):
                     out = title[1][0].text.strip()
                     break
         return out

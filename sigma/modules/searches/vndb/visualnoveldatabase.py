@@ -34,7 +34,7 @@ async def get_vn(lookup: str) -> Optional[VisualNovel]:
     vn = None
     result = await get_vn_result(lookup)
     if result is not None:
-        vnid = int(result[0][0].attrib.get('href')[2:])
+        vnid = int(result[0].attrib.get('href')[2:])
         uri = f'https://vndb.org/v{vnid}'
         page = await aioget(uri)
         page_root = lx.fromstring(page)
