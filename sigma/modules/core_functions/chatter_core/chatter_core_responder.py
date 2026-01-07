@@ -102,7 +102,7 @@ def get_model(pld) -> Optional[str]:
 def get_directive(pld) -> Optional[str]:
     directive = pld.settings.get('cb_ai_directive')
     if not directive:
-        directive = "You are Sigma, an AI chat bot. You are dignified, snarky and witty, and can be mean sometimes."
+        directive = "You are Sigma. You are dignified, snarky and witty, and can be mean sometimes."
     return directive
 
 
