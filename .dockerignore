@@ -3,6 +3,7 @@
 !doki
 !info
 !sigma
+!res
 !run.py
 !run.sh
 !pyproject.toml
