@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import secrets
 
 import discord
 import lxml.html as lx
@@ -71,11 +72,13 @@ async def get_vn_page(uri: str) -> lx.HtmlElement:
 
 
 async def get_vn_quote() -> tuple[str, str]:
-    body = await aioget('https://vndb.org/r')
-    page = lx.fromstring(body)
-    footer_quote = page.cssselect('footer a')[0]
-    quote_text = footer_quote.text_content().strip()
-    quote_url = f"https://vndb.org{footer_quote.attrib['href']}"
+    with open('./res/vndb/quotes.tsv') as quotes_file:
+        lines = quotes_file.read().strip().split('\n')
+    chosen = lines[secrets.randbelow(len(lines))]
+    pieces = chosen.split('\t')
+    quote_text = pieces[4]
+    vnid = pieces[1]
+    quote_url = f"https://vndb.org/{vnid}"
     return quote_text, quote_url
 
 
