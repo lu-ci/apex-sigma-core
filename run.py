@@ -68,7 +68,9 @@ def run():
     Runs the entire client core.
     """
     ci_token = os.getenv('CI')
+    failures = 0
     if not ci_token:
+        # noinspection PyBroadException
         try:
             # if `install_requirements` was run, reimport the framework.
             if requirements_reinstalled:
@@ -86,7 +88,12 @@ def run():
             install_requirements()
             run()
         except KeyboardInterrupt:
-            pass
+            exit(1)
+        except Exception:
+            if args.restart:
+                if failures < 5:
+                    failures += 1
+                    run()
     else:
         exit(0)
 
