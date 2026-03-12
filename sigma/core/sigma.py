@@ -74,10 +74,30 @@ class ApexSigma(client_class):
     )
 
     def __init__(self, shard_count: Optional[int] = None, shard_ids: Optional[list[int]] = None):
+        intents = discord.Intents.all()
+        intents.bans = False
+        # intents.dm_messages = False
+        intents.dm_typing = False
+        intents.emojis = False
+        intents.emojis_and_stickers = False
+        # intents.guild_messages = False
+        # intents.guild_reactions = False
+        intents.guild_typing = False
+        # intents.guilds = False
+        intents.integrations = False
+        intents.invites = False
+        # intents.members = False
+        # intents.messages = False
+        intents.presences = False
+        # intents.reactions = False
+        intents.typing = False
+        intents.voice_states = False
+        intents.webhooks = False
+
         super().__init__(
             status=discord.Status.dnd,
             activity=discord.Game('booting...'),
-            intents=discord.Intents.all()
+            intents=intents
         )
         self.ready = False
         # State attributes before initialization.
@@ -375,7 +395,7 @@ class ApexSigma(client_class):
             self.log.info('Connecting to Discord Gateway...')
             self.gateway_start = arrow.utcnow().float_timestamp
             if self.cfg.dsc.token is not None:
-                super().run(self.cfg.dsc.token, log_handler=None, log_level=ERROR)
+                super().run(self.cfg.dsc.token, reconnect=True, log_handler=None, log_level=ERROR)
             else:
                 self.log.error('You need to configure the Discord bot token before starting.')
                 exit(errno.EPERM)
