@@ -23,7 +23,7 @@ for ((i = 0; i < num_groups; i++)); do
   shard_ids=$(seq -s, $start $end)
 
   exec uv run ./run.py --count "$total_count" --group "$shard_ids" --restart &
-  sleep 5
+  sleep 60
 done
 
 wait
