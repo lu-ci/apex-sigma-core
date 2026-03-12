@@ -9,5 +9,5 @@ commands:
     enabled: true
     name: massmove
     usage: '{pfx}{cmd} 1234567890; New Voice'
-enabled: true
+enabled: false
 name: Member Manipulation

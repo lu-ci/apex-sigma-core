@@ -6,5 +6,5 @@ commands:
     description: Shows the timers for all FFXIV events and resets.
     enabled: true
     name: finalfantasyxivtimers
-enabled: true
+enabled: false
 name: Final Fantasy XIV

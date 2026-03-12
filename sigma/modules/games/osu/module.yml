@@ -6,5 +6,5 @@ commands:
     enabled: true
     name: osu
     usage: '{pfx}{cmd} AXAz0r --mania'
-enabled: true
+enabled: false
 name: Osu Commands

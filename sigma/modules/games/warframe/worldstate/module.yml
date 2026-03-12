@@ -82,5 +82,5 @@ commands:
     description: Shows the current temperature in Orb Vallis in Warframe.
     enabled: true
     name: wforbvallis
-enabled: true
+enabled: false
 name: Warframe World Information

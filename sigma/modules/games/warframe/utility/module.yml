@@ -27,5 +27,5 @@ commands:
     description: Links a webpage for Warframe's drop tables.
     enabled: true
     name: wfdroptables
-enabled: true
+enabled: false
 name: Warframe Utilities

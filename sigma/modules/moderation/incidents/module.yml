@@ -35,7 +35,7 @@ commands:
       the Manage Messages permission.
     enabled: true
     name: exportincidents
-enabled: true
+enabled: false
 events:
   - enabled: true
     name: kick_incident_scanner

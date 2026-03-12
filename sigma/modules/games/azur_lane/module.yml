@@ -60,7 +60,7 @@ commands:
     enabled: true
     name: azurlaneacquisition
     usage: '{pfx}{cmd} Hardy'
-enabled: true
+enabled: false
 events:
   - enabled: false
     name: dbinit_azur_lane
