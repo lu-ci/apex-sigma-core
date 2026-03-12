@@ -16,9 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.modules.moderation.server_settings.collectionjar.collection_watcher import clean_word
-
-
 def match_trigger(text, trigger):
     """
     Compares text content for a trigger's presence.
@@ -26,8 +23,8 @@ def match_trigger(text, trigger):
     :type trigger: str
     :rtype: bool
     """
-    text_pieces = clean_word(text).split()
-    trigger_pieces = clean_word(trigger).split()
+    text_pieces = text.split()
+    trigger_pieces = trigger.split()
     matching_trigger = False
     if len(text_pieces) >= len(trigger_pieces) != 0:
         piece_location = None
