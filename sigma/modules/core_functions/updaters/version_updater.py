@@ -18,18 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-version_clock_running = False
 
 
 async def version_updater(ev):
     """
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    global version_clock_running
-    if not version_clock_running:
-        if ev.bot.cfg.dsc.shards is None or 0 in ev.bot.cfg.dsc.shards:
-            ev.bot.loop.create_task(version_updater_cycler(ev))
-        version_clock_running = True
+    await version_updater_cycler(ev)
 
 
 async def version_updater_cycler(ev):
@@ -38,9 +33,6 @@ async def version_updater_cycler(ev):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     version_coll = ev.db.col.VersionCache
-    while True:
-        if ev.bot.is_ready():
-            version = ev.bot.info.get_version().raw
-            lookup = {'version': {'$exists': True}}
-            await version_coll.update_one(lookup, {'$set': version}, upsert=True)
-        await asyncio.sleep(60)
+    version = ev.bot.info.get_version().raw
+    lookup = {'version': {'$exists': True}}
+    await version_coll.update_one(lookup, {'$set': version}, upsert=True)

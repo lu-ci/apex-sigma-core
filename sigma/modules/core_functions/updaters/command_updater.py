@@ -16,20 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import asyncio
-
-command_clock_running = False
-
 
 async def command_updater(ev):
     """
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    global command_clock_running
-    if not command_clock_running:
-        if ev.bot.cfg.dsc.shards is None or 0 in ev.bot.cfg.dsc.shards:
-            ev.bot.loop.create_task(command_updater_cycler(ev))
-        command_clock_running = True
+    await command_updater_cycler(ev)
 
 
 async def gen_cmd_cache_data(cmd, mdl_coll):
@@ -61,14 +53,11 @@ async def command_updater_cycler(ev):
     command_coll = ev.db.col.CommandCache
     await module_coll.drop()
     await command_coll.drop()
-    while True:
-        if ev.bot.is_ready():
-            for module in ev.bot.modules.categories:
-                module_lookup = {'name': module}
-                await module_coll.update_one(module_lookup, {'$set': module_lookup}, upsert=True)
-            for command in ev.bot.modules.commands:
-                command = ev.bot.modules.commands.get(command)
-                command_lookup = {'name': command.name}
-                command_data = await gen_cmd_cache_data(command, module_coll)
-                await command_coll.update_one(command_lookup, {'$set': command_data}, upsert=True)
-        await asyncio.sleep(3600)
+    for module in ev.bot.modules.categories:
+        module_lookup = {'name': module}
+        await module_coll.update_one(module_lookup, {'$set': module_lookup}, upsert=True)
+    for command in ev.bot.modules.commands:
+        command = ev.bot.modules.commands.get(command)
+        command_lookup = {'name': command.name}
+        command_data = await gen_cmd_cache_data(command, module_coll)
+        await command_coll.update_one(command_lookup, {'$set': command_data}, upsert=True)

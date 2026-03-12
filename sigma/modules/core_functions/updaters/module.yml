@@ -1,7 +1,7 @@
 category: development
 enabled: true
 events:
-  - enabled: true
+  - enabled: false
     name: donor_updater
     type: ready
   - enabled: true
