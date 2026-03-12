@@ -11,6 +11,7 @@
 - [MINIGAMES](#minigames)
 - [MISCELLANEOUS](#miscellaneous)
 - [MODERATION](#moderation)
+- [MUSIC](#music)
 - [NIHONGO](#nihongo)
 - [NSFW](#nsfw)
 - [OSU](#osu)
@@ -320,6 +321,22 @@ Commands | Description | Example
 `>>viewinactivewarning` `>>viewinacwarning` `>>inacwarning` | Shows detailed information for the mentioned user's warning. Both the user mention and the warning ID are needed for the command. The specified warning must be marked as inactive. Only the server owner can use this command. | `>>viewinactivewarning @person 1abc`
 `>>viewwarning` `>>warninginfo` `>>warning` | Shows detailed information for the specified user's warning. Both the user mention and the warning ID are needed for the command. This command requires the Manage Messages permission. | `>>viewwarning @person 1abc`
 `>>voicekick` `>>vkick` | Kicks a user from voice chat. It completely disconnects the mentioned user by creating a new voice channel, moving them to it, then deleting that voice channel. This command requires the Kick permission. | `>>voicekick @person`
+[Back To Top](#module-index)
+
+### MUSIC
+Commands | Description | Example
+----------|-------------|--------
+`>>disconnect` `>>stop` | Stops the music, disconnects Sigma from the current voice channel, and purges the music queue. | `>>disconnect`
+`>>nowplaying` `>>currentsong` `>>playing` `>>np` | Shows information on the currently playing song. | `>>nowplaying`
+`>>pause` | Pauses the music player. | `>>pause`
+`>>play` `>>start` | Starts playing the music queue. | `>>play`
+`>>queue` `>>add` | Queues up a song to play from YouTube. Either from a direct URL or text search. Playlists are supported but take a long time to process. If no query is provided, the current queue will be showed instead. The list is paginated, each page has up to 5 items. You can specify the page number you want to see. | `>>queue Kaskade Disarm You Illenium Remix`
+`>>repeat` | Toggles if the current queue should be repeated. Whenever a song is played, it's re-added to the end of the queue. | `>>repeat`
+`>>resume` | Resumes the music player. | `>>resume`
+`>>shuffle` | Randomizes the current song queue. | `>>shuffle`
+`>>skip` `>>next` | Skips the currently playing song. | `>>skip`
+`>>summon` `>>move` | If Sigma isn't connected to any channel, she will connect to yours. If it is connected, it will move to you. | `>>summon`
+`>>unqueue` `>>remove` | Removes a song from the queue. Minimum number is 1 and the maximum is however many items the queue has. | `>>unqueue 5`
 [Back To Top](#module-index)
 
 ### NIHONGO
