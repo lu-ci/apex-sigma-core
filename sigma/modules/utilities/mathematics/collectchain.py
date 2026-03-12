@@ -60,9 +60,6 @@ async def collectchain(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    response = GenericResponse('Chain collection has been temporarily disabled.').error()
-    await pld.msg.channel.send(embed=response)
-    return
     target_usr = get_target(pld.msg)
     target_chn = get_channel(pld.msg)
     starter = 'You are' if pld.msg.author.id == target_usr.id else f'{target_usr.name} is'
