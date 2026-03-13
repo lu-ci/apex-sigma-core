@@ -37,5 +37,5 @@ commands:
     enabled: true
     name: removewarning
     usage: '{pfx}{cmd} @person 1abc'
-enabled: true
+enabled: false
 name: Warning Commands

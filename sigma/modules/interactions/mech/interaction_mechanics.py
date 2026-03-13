@@ -143,15 +143,18 @@ async def make_footer(cmd, item):
     :type item: dict
     :rtype: str
     """
-    uid = item.get('user_id')
-    user = await cmd.bot.get_user(uid)
+    # uid = item.get('user_id')
+    # user = await cmd.bot.get_user(uid)
+    user = None
     username_fallback = item.get('user_name') or 'Unknown User'
     username = user.name if user else username_fallback
-    sid = item.get('server_id')
-    srv = await cmd.bot.get_guild(sid)
+    # sid = item.get('server_id')
+    # srv = await cmd.bot.get_guild(sid)
+    srv = None
     servername_fallback = item.get('server_name') or 'Unknown Server'
     servername = srv.name if srv else servername_fallback
-    await update_data(cmd.db, item, user, srv)
+    if user and srv:
+        await update_data(cmd.db, item, user, srv)
     react_id = item.get('interaction_id')
     footer = f'[{react_id}] | Submitted by {username} from {servername}.'
     return footer

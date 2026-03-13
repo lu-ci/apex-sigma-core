@@ -77,7 +77,7 @@ async def spouses(cmd, pld):
     if splist:
         spdata = []
         for sp in splist:
-            spmemb = await cmd.bot.get_user(sp.get('user_id'))
+            spmemb = pld.msg.guild.get_member(sp.get('user_id'))
             spmemb = (spmemb.name if spmemb else sp.get('user_id')) if not ids_only else sp.get('user_id')
             sp_profile = await cmd.db.col.Profiles.find_one({'user_id': sp.get('user_id')}) or {}
             sp_spouses = sp_profile.get('spouses') or []

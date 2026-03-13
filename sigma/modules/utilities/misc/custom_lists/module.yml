@@ -66,5 +66,5 @@ commands:
     enabled: true
     name: editline
     usage: '{pfx}{cmd} 38fe 3 This line will replace line three.'
-enabled: true
+enabled: false
 name: Custom List Utilities

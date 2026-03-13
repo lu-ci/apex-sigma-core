@@ -144,7 +144,7 @@ commands:
     permissions:
       dmable: true
     usage: '{pfx}{cmd} 1bca22'
-enabled: true
+enabled: false
 events:
   - enabled: true
     name: expiration_clockwork
