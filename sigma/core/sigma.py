@@ -99,7 +99,7 @@ class ApexSigma(client_class):
             activity=discord.Game('booting...'),
             intents=intents
         )
-        self.ready = False
+        self.ready = True
         # State attributes before initialization.
         self.cfg = init_cfg
         if shard_count:
