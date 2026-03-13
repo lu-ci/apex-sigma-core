@@ -30,7 +30,7 @@ commands:
     enabled: true
     name: starboardlimit
     usage: '{pfx}{cmd} 25'
-enabled: true
+enabled: false
 events:
   - enabled: true
     name: starboard_watcher
