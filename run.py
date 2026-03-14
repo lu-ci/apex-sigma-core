@@ -106,5 +106,5 @@ if __name__ == '__main__':
         # noinspection PyBroadException
         try:
             run()
-        except Exception:
-            pass
+        except Exception as err:
+            print(f"Restartable Failure: {err}")
