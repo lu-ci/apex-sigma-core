@@ -405,6 +405,9 @@ class ApexSigma(client_class):
         except discord.PrivilegedIntentsRequired:
             self.log.error('Missing requested privileged intents!')
             exit(errno.EPERM)
+        except Exception as err:
+            self.log.error(f'Unknown Error: {err}')
+            exit(1)
 
     async def on_connect(self):
         """
