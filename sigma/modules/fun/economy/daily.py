@@ -36,12 +36,12 @@ async def daily(cmd, pld):
     now_stamp = arrow.utcnow().int_timestamp
     last_daily = daily_doc.get('stamp') or 0
     streak = daily_doc.get('streak') or 0
-    streak = (0 if now_stamp > last_daily + 259200 else streak) + 1
+    streak += 1
     if now_stamp > last_daily + 79200:
         currency = cmd.bot.cfg.pref.currency
-        random_part = secrets.randbelow(100)
+        random_part = secrets.randbelow(1000)
         multi = 10 if streak > 10 else streak
-        amount = int(500 + random_part + (100 * (multi * 1.6))) if multi != 1 else 500 + random_part
+        amount = int(5000 + random_part + (1000 * (multi * 1.6))) if multi != 1 else 5000 + random_part
         amount += streak
         daily_data = {'user_id': pld.msg.author.id, 'stamp': now_stamp, 'streak': streak}
         await cmd.db.add_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
