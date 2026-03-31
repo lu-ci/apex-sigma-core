@@ -35,22 +35,22 @@ steps:
       event: push
       branch: master
 
-  - name: deploy
-    image: alpine:latest
-    depends_on:
-      - build-and-push
-    environment:
-      SSH_HOST:
-        from_secret: SSH_HOST
-      SSH_USER:
-        from_secret: SSH_USER
-      SSH_KEY:
-        from_secret: SSH_KEY
-    commands:
-      - apk add --no-cache openssh-client
-      - eval $(ssh-agent -s)
-      - echo "$SSH_KEY" | ssh-add -
-      - ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd /srv && docker-compose pull sigma_0 && docker-compose up -d sigma_0"
-    when:
-      event: push
-      branch: master
+#  - name: deploy
+#    image: alpine:latest
+#    depends_on:
+#      - build-and-push
+#    environment:
+#      SSH_HOST:
+#        from_secret: SSH_HOST
+#      SSH_USER:
+#        from_secret: SSH_USER
+#      SSH_KEY:
+#        from_secret: SSH_KEY
+#    commands:
+#      - apk add --no-cache openssh-client
+#      - eval $(ssh-agent -s)
+#      - echo "$SSH_KEY" | ssh-add -
+#      - ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd /srv && docker-compose pull sigma_0 && docker-compose up -d sigma_0"
+#    when:
+#      event: push
+#      branch: master
