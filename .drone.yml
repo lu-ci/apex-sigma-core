@@ -27,8 +27,8 @@ steps:
         from_secret: REGISTRY_USER
       password:
         from_secret: REGISTRY_TOKEN
-      repo: git.luciascipher.com/lucia/apex-sigma
-      registry: git.luciascipher.com
+      repo: codeberg.org/lu-ci/apex-sigma
+      registry: codeberg.org
       tags:
         - latest
     when:

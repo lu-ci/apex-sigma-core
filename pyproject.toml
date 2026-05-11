@@ -34,7 +34,7 @@ dev = [
 ]
 
 [project.urls]
-Repository = "https://git.luciascipher.com/lucia/apex-sigma"
+Repository = "https://codeberg.org/lu-ci/apex-sigma"
 
 [tool.setuptools.packages.find]
 where = ["sigma/"]
