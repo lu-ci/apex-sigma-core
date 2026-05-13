@@ -1,36 +1,36 @@
 [project]
 name = "apex-sigma"
 version = "4.109.2199"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
-    "aiohttp",
-    "arrow",
-    "cachetools",
-    "cryptography",
-    "cssselect",
-    "discord.py[voice]",
-    "ftfy",
-    "geopy",
-    "humanfriendly",
-    "lxml",
-    "markovify",
-    "motor",
-    "pillow",
-    "psutil",
-    "pymongo",
-    "python-aiml",
-    "pyyaml",
-    "redis",
-    "translate",
-    "twitchio",
-    "yt_dlp",
+    "aiohttp~=3.13",
+    "arrow~=1.4",
+    "cachetools~=7.1",
+    "cryptography~=48.0",
+    "cssselect~=1.4",
+    "discord.py[voice]~=2.7",
+    "ftfy~=6.3",
+    "geopy~=2.4",
+    "humanfriendly~=10.0",
+    "lxml~=6.1",
+    "markovify~=0.9",
+    "motor~=3.7",
+    "pillow~=12.2",
+    "psutil~=7.2",
+    "pymongo~=4.17",
+    "python-aiml~=0.9",
+    "pyyaml~=6.0",
+    "redis~=7.4",
+    "translate~=3.8",
+    "twitchio~=3.2",
+    "yt_dlp~=2026.3",
     # "systemd == 0.16.1; sys_platform == 'linux'",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest == 7.4.3",
-    "flake8 == 6.1.0",
+    "pytest == 9.0.3",
+    "flake8 == 7.3.0",
 ]
 
 [project.urls]
