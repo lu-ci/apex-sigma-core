@@ -19,7 +19,7 @@ events:
   - enabled: true
     name: invite_reporter
     type: ready
-  - enabled: true
+  - enabled: false
     name: kuma_reporter
     type: ready
 name: Reporter Clockworks
