@@ -420,7 +420,7 @@ class ApexSigma(client_class):
         Starts events when the client connects to a shard, if the client is sharded.
         :type shard_id: int
         """
-        self.log.info(f'Connection to Discord Shard #{shard_id} Established')
+        self.log.info(f'Connection to Discord Shard #{shard_id} ({len(self.shards.keys())}) Established')
         self.loop.create_task(self.queue.event_runner('shard_ready', ShardReadyPayload(self, shard_id)))
 
     async def on_ready(self):
