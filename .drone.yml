@@ -19,7 +19,7 @@ steps:
       - python3 -m flake8 --ignore=E501 sigma/
 
   - name: build-and-push
-    image: plugins/docker
+    image: plugins/docker:20.17.4
     depends_on:
       - test
     settings:
