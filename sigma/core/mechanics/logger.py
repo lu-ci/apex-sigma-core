@@ -164,7 +164,7 @@ class Logger(object):
         else:
             cls.add_stdout_handler(logger)
 
-        cls.add_file_handler(logger, shards)
+        # cls.add_file_handler(logger, shards)
         logger.created = True
         return logger
 
