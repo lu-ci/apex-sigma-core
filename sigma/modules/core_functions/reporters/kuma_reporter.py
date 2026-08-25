@@ -50,7 +50,6 @@ async def kuma_reporter_cycler(ev):
         kuma_host = os.environ.get('KUMA_HOST')
         kuma_push_key = os.environ.get('KUMA_PUSH_KEY')
         kuma_endpoint = f'{kuma_host}/api/push/{kuma_push_key}'
-        ev.log.info(kuma_endpoint)
         uri = f'{kuma_endpoint}?status={status}&msg={message}'
         if ready:
             try:
