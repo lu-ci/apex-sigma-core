@@ -2,7 +2,6 @@
 
 import errno
 import os
-import subprocess
 import sys
 import argparse
 
@@ -24,22 +23,6 @@ args = parser.parse_args()
 if not sys.version_info >= MIN_PY_VERSION:
     print('Fatal Error: Wrong Python Version! Sigma supports Python {}+!'.format('.'.join(map(str, MIN_PY_VERSION))))
     exit(errno.EINVAL)
-
-
-def install_requirements():
-    """
-    Tries to install the pip requirements
-    if startup fails due to a missing module.
-    """
-    global requirements_reinstalled
-    pip_cmd = ['pip', 'install', '-Ur', 'requirements.txt']
-    print('Missing required modules, attempting to install them...')
-    try:
-        subprocess.run(pip_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-        requirements_reinstalled = True
-    except (OSError, subprocess.SubprocessError):
-        print('Requirement update failed!')
-        exit(errno.EINVAL)
 
 
 def import_framework():
@@ -84,9 +67,6 @@ def run():
                 else:
                     sigma = ApexSigma()
             sigma.run()
-        except (ImportError, ModuleNotFoundError, NameError):
-            install_requirements()
-            run()
         except KeyboardInterrupt:
             exit(1)
         except Exception:
