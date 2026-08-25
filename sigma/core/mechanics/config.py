@@ -76,7 +76,7 @@ class DiscordConfig(object):
         self.bot = self.raw.get('bot', True)
         self.max_messages = self.raw.get('max_messages')
         try:
-            self.shards = [int(shard) for shard in os.environ['SIGMA_SHARDS'].split(',')]
+            self.shards = [int(shard) for shard in os.environ['SIGMA_SHARD_GROUP'].split(',')]
             self.shard_count = int(os.environ['SIGMA_SHARD_COUNT'])
         except (ValueError, KeyError):
             self.shards = None
