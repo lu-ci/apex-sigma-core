@@ -20,8 +20,6 @@ import os
 
 import yaml
 
-from sigma.core.mechanics.logger import create_logger
-
 
 class ModuleConfig(dict):
     """
@@ -172,7 +170,6 @@ class Configuration(object):
     )
 
     def __init__(self):
-        self.log = create_logger('Config')
         cli_cfg_path = 'config/core/discord.yml'
         db_cfg_path = 'config/core/database.yml'
         pref_cfg_path = 'config/core/preferences.yml'
@@ -181,25 +178,21 @@ class Configuration(object):
             with open(cli_cfg_path, encoding='utf-8') as discord_config:
                 self.client_cfg_data = yaml.safe_load(discord_config)
         else:
-            self.log.warning('No discord configuration, using defaults.')
             self.client_cfg_data = {}
         if os.path.exists(db_cfg_path):
             with open(db_cfg_path, encoding='utf-8') as database_config:
                 self.db_cfg_data = yaml.safe_load(database_config)
         else:
-            self.log.warning('No database configuration, using defaults.')
             self.db_cfg_data = {}
         if os.path.exists(pref_cfg_path):
             with open(pref_cfg_path, encoding='utf-8') as preferences_config:
                 self.pref_cfg_data = yaml.safe_load(preferences_config)
         else:
-            self.log.warning('No preferences configuration, using defaults.')
             self.pref_cfg_data = {}
         if os.path.exists(cache_cfg_path):
             with open(cache_cfg_path, encoding='utf-8') as cache_config:
                 self.cache_cfg_data = yaml.safe_load(cache_config)
         else:
-            self.log.warning('No cache configuration, using defaults.')
             self.cache_cfg_data = {}
         self.dsc = DiscordConfig(self.client_cfg_data)
         self.db = DatabaseConfig(self.db_cfg_data)
