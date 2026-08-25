@@ -31,8 +31,9 @@ async def kuma_reporter(ev):
     """
     global kuma_loop_running
     if not kuma_loop_running:
-        kuma_endpoint = os.environ.get('KUMA_ENDPOINT')
-        if kuma_endpoint:
+        kuma_host = os.environ.get('KUMA_HOST')
+        kuma_push_key = os.environ.get('KUMA_PUSH_KEY')
+        if kuma_host and kuma_push_key:
             kuma_loop_running = True
             ev.bot.loop.create_task(kuma_reporter_cycler(ev))
 
@@ -46,7 +47,10 @@ async def kuma_reporter_cycler(ev):
         ready = ev.bot.is_ready()
         status = 'up' if ready else 'down'
         message = 'ACTIVE' if ready else 'INACTIVE'
-        kuma_endpoint = os.environ.get('KUMA_ENDPOINT')
+        kuma_host = os.environ.get('KUMA_HOST')
+        kuma_push_key = os.environ.get('KUMA_PUSH_KEY')
+        kuma_endpoint = f'{kuma_host}/api/push/{kuma_push_key}'
+        ev.log.info(kuma_endpoint)
         uri = f'{kuma_endpoint}?status={status}&msg={message}'
         if ready:
             try:
@@ -56,7 +60,7 @@ async def kuma_reporter_cycler(ev):
             uri += f'&ping={latency}'
         # noinspection PyBroadException
         try:
-            async with aiohttp.ClientSession() as session:
+            async with aiohttp.ClientSession(conn_timeout=5, read_timeout=10) as session:
                 await session.get(uri)
         except Exception:
             pass
