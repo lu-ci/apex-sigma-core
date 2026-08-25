@@ -30,4 +30,6 @@ cd "$(dirname "$0")"
 
 total_count=$SIGMA_SHARD_COUNT
 shard_ids=$SIGMA_SHARD_GROUP
+wait_time=$((SIGMA_SHARD_GROUP * 5))
+sleep $wait_time
 exec uv run ./run.py --count "$total_count" --group "$shard_ids" --restart
