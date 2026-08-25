@@ -195,13 +195,12 @@ class ApexSigma(client_class):
             self.log.error('Cacher failed to initialize, if you are using Redis, make sure the server is running!')
             exit(errno.ETIMEDOUT)
 
-    @staticmethod
-    def init_logger():
+    def init_logger(self):
         """
         Initializes the core client Logger.
         :rtype: sigma.core.mechanics.logger.Logger
         """
-        logger = create_logger('Sigma', shards=init_cfg.dsc.shards)
+        logger = create_logger('Sigma', shards=self.cfg.dsc.shards)
         logger.info('Logger Created')
         return logger
 
