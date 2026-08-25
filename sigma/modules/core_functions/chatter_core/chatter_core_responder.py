@@ -218,37 +218,41 @@ async def chatter_core_responder(ev, pld):
     """
     if pld.msg.content:
         start_one = check_start(pld.msg, ev.bot.user.id)
-        start_two = pld.msg.reference.resolved.author.id == ev.bot.user.id if pld.msg.reference else False
-        if start_one or start_two:
-            clean_msg = pld.msg.clean_content.replace('@', '')
-            if start_one:
-                clean_msg = clean_msg.partition(' ')[2]
-            if clean_msg:
-                setting = pld.settings.get('chatterbot')
-                ai_mode = pld.settings.get('cb_ai_mode')
-                if ai_mode != 'custom':
-                    active = setting in [True, None] or pld.msg.author.id in ev.bot.cfg.dsc.owners
-                    is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
-                    if clean_msg.lower() == 'reset prefix':
-                        if pld.msg.channel.permissions_for(pld.msg.author).manage_guild or is_owner:
-                            await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
-                            response = f'The prefix for this server has been reset to `{ev.bot.cfg.pref.prefix}`.'
+        reference = pld.msg.reference
+        if reference:
+            resolved = pld.msg.reference.resolved
+            if resolved:
+                start_two = resolved.author.id == ev.bot.user.id
+                if start_one or start_two:
+                    clean_msg = pld.msg.clean_content.replace('@', '')
+                    if start_one:
+                        clean_msg = clean_msg.partition(' ')[2]
+                    if clean_msg:
+                        setting = pld.settings.get('chatterbot')
+                        ai_mode = pld.settings.get('cb_ai_mode')
+                        if ai_mode != 'custom':
+                            active = setting in [True, None] or pld.msg.author.id in ev.bot.cfg.dsc.owners
+                            is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
+                            if clean_msg.lower() == 'reset prefix':
+                                if pld.msg.channel.permissions_for(pld.msg.author).manage_guild or is_owner:
+                                    await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
+                                    response = f'The prefix for this server has been reset to `{ev.bot.cfg.pref.prefix}`.'
+                                else:
+                                    response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
+                                await pld.msg.channel.send(response)
+                            elif active:
+                                async with pld.msg.channel.typing():
+                                    if not chatter_core.numCategories():
+                                        train(ev, chatter_core)
+                                    set_session_info(pld)
+                                    response_text = clean_response(chatter_core.respond(clean_msg, pld.msg.author.id))
+                                    sleep_time = min(len(response_text.split(' ')) * 0.58, 10.0)
+                                    await asyncio.sleep(sleep_time)
+                                    await pld.msg.reply(response_text)
                         else:
-                            response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
-                        await pld.msg.channel.send(response)
-                    elif active:
-                        async with pld.msg.channel.typing():
-                            if not chatter_core.numCategories():
-                                train(ev, chatter_core)
-                            set_session_info(pld)
-                            response_text = clean_response(chatter_core.respond(clean_msg, pld.msg.author.id))
-                            sleep_time = min(len(response_text.split(' ')) * 0.58, 10.0)
-                            await asyncio.sleep(sleep_time)
-                            await pld.msg.reply(response_text)
-                else:
-                    async with pld.msg.channel.typing():
-                        try:
-                            response_text = await get_custom_response(ev, pld, clean_msg)
-                        except Exception as err:
-                            response_text = f'Broad error: {err}'
-                        await pld.msg.reply(response_text)
+                            async with pld.msg.channel.typing():
+                                try:
+                                    response_text = await get_custom_response(ev, pld, clean_msg)
+                                except Exception as err:
+                                    response_text = f'Broad error: {err}'
+                                await pld.msg.reply(response_text)
