@@ -21,7 +21,7 @@ steps:
   - name: deploy
     image: alpine:latest
     depends_on:
-      - build-and-push
+      - test
     environment:
       SSH_HOST:
         from_secret: LOCAL_SSH_HOST
