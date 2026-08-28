@@ -18,23 +18,6 @@ steps:
       - pip3 install flake8 --break-system-packages
       - python3 -m flake8 --ignore=E501 sigma/
 
-  - name: build-and-push
-    image: plugins/docker:20.17.4
-    depends_on:
-      - test
-    settings:
-      username:
-        from_secret: REGISTRY_USER
-      password:
-        from_secret: REGISTRY_TOKEN
-      repo: codeberg.org/lu-ci/apex-sigma
-      registry: codeberg.org
-      tags:
-        - latest
-    when:
-      event: push
-      branch: master
-
   - name: deploy
     image: alpine:latest
     depends_on:
